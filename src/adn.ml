@@ -148,7 +148,7 @@ type 'a consensus = Full of 'a | Partial of 'a * int | No_consensus
 (* return (Full a) if all elements of the list are equal to a,
    (Partial (a, n)) if a is the only element of the list with the
    greatest number of occurrences and this number is equal to n,
-   No_consensus otherwise. the list must be non-empty *)
+   No_consensus otherwise. *)
 let consensus (list : 'a list) : 'a consensus =
   failwith "À compléter"
 
@@ -158,7 +158,7 @@ let consensus (list : 'a list) : 'a consensus =
    consensus [1; 1; 2; 2] = No_consensus
  *)
 
-(* return the consensus sequence of a list of sequence : for each position
+(* return the consensus sequence of a list of sequences : for each position
    in the elements of ll, compute the consensus  of the set of values at this
    position  in the sequences. the lists must be of same length. if all lists
    are empty, return the empty sequence.
@@ -173,4 +173,6 @@ let consensus_sequence (ll : 'a list list) : 'a consensus list =
                      [1; 1; 2; 2];
                      [1; 2; 2; 2]]
  = [Full 1; Partial (1, 3); No_consensus; Partial (2, 3)]
+
+ consensus_sequence [[]; []; []] = []
  *)
