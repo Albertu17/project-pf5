@@ -1,3 +1,5 @@
+opam_exec := opam exec --switch $$PWD --
+
 .PHONY : all
 all : build
 
@@ -6,18 +8,18 @@ phony :
 
 .PHONY : build
 build :
-	@ eval $(opam env) && dune build
+	@ $(opam_exec) dune build
 
 .PHONY : test
 test :
-	@ eval $(opam env) && dune exec test/test.exe -- test
+	@ $(opam_exec) dune exec test/test.exe -- test
 test-% : phony
-	@ eval $(opam env) && dune exec test/test.exe -- test $*
+	@ $(opam_exec) dune exec test/test.exe -- test $*
 
 .PHONY : top
 top :
-	@ eval $(opam env) && dune utop . -- -init top.ml
+	@ $(opam_exec) dune utop . -- -init top.ml
 
 .PHONY : clean
 clean :
-	@ eval $(opam env) && dune clean
+	@ $(opam_exec) dune clean

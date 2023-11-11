@@ -132,7 +132,7 @@ let rec slices_between
     |Some (z, t) -> z::(slices_between start stop t)
 
 (*
-  slices_between [1; 1] [1; 2] [1; 1; 1; 1; 2; 1; 3; 1; 2] = [[1]; []; [2; 1; 3]]
+  slices_between [1; 1] [1; 2] [1; 1; 1; 1; 2; 1; 3; 1; 2] = [[1]]
  *)
 
 let cut_genes (dna : dna) : (dna list) =

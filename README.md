@@ -7,10 +7,11 @@ Pour commencer, installez le gestionnaire de paquets [`opam`](https://opam.ocaml
 ## Installation des paquets
 
 Placez-vous dans le répertoire cloné.
-De là, exécutez la commande suivante, qui crée un switch `opam` local en y installation les paquets nécessaires :
+De là, exécutez les commandes suivantes, qui créent un switch `opam` local en y installant les paquets nécessaires :
 
 ```
-opam switch create . -y --deps-only
+opam update
+opam switch create . 4.14.1 -y --deps-only
 ```
 
 ## Compilation
@@ -24,6 +25,5 @@ Pour le lancer, exécutez la commande `make top`.
 
 ## Tests
 
-**Tous les tests n'ont pas encore été publiés.**
 Pour lancer tous les tests disponibles, exécutez `make test`.
 Pour tester seulement les fonctions de l'exercice *i*, exécutez `make test-i`.
