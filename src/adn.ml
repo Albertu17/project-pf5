@@ -150,8 +150,26 @@ type 'a consensus = Full of 'a | Partial of 'a * int | No_consensus
    greatest number of occurrences and this number is equal to n,
    No_consensus otherwise. *)
 let consensus (list : 'a list) : 'a consensus =
-  failwith "À compléter"
-
+  let rec build_transpose ll tr n = 
+    "Nothing"
+  and 
+    count le a c g t =
+    (*
+      le: liste des éléments de la même colonne
+      a: compteur des bases A
+      c: compteur des bases C
+      g: compteur des bases G
+      t: compteur des bases T
+    *)
+    match le with
+    |[] -> (a, c, g, t)
+    |A::r -> count r (a+1) c g t
+    |C::r -> count r a (c+1) g t
+    |G::r -> count r a c (g+1) t
+    |T::r -> count r a c  g (t+1)
+    |_::r -> count r a c g t
+   
+  
 (*
    consensus [1; 1; 1; 1] = Full 1
    consensus [1; 1; 1; 2] = Partial (1, 3)
@@ -165,7 +183,7 @@ let consensus (list : 'a list) : 'a consensus =
  *)
 
 let consensus_sequence (ll : 'a list list) : 'a consensus list =
-  failwith "À compléter"
+  failwith "A completer"
 
 (*
  consensus_sequence [[1; 1; 1; 1];
