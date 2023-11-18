@@ -1,12 +1,12 @@
 open Regex_base
 
-(* TODO: récursivité terminale ? *)
 (* Renvoie le mot w (liste de caractères) concaténé n fois avec lui-même. *)
+(* Fonction récursive terminale. *)
 let repeat n w =
   if w = [] then [] else (* Si la liste à répéter est vide, on renvoie la liste vide. *)
   let rec aux m acc =
     if m = 0 then acc
-    else w@(aux (m-1) acc)
+    else aux (m-1) (w@acc)
   in aux n []
 
 (* TODO: À simplifier pour éventuellement récursivité terminale. *)
@@ -97,7 +97,7 @@ let enumerate alphabet exp =
     | Concat(e1, e2) -> aux e1 (fun langage_e1 ->
                         aux e2 (fun langage_e2 -> k (decide_to_apply product langage_e1 langage_e2)))
     | Alt(e1, e2) ->  aux e1 (fun langage_e1 ->
-                      aux e2 (fun langage_e2 -> k (decide_to_apply (@) langage_e1 langage_e2)))
+                      aux e2 (fun langage_e2 -> k (decide_to_apply union_sorted langage_e1 langage_e2)))
   in aux exp Fun.id
 
 (* Renvoie l'ensemble (liste triée sans duplicata) des lettres apparaissant dans l'expression exp. *)
