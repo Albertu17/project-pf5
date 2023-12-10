@@ -43,7 +43,7 @@ let base_of_char (c : char) : base =
 
 
 let dna_of_string (s : string) : base list =
-  let rec build_list lc ldna = 
+  let rec build_list lc ldna =
     (*
       lc: la liste des caractères extraits de la chaine 
       ldna: la liste des bases DNA
@@ -108,9 +108,18 @@ let first_occ (slice : 'a list) (list : 'a list)
      pos: une liste pour contenir les éléments de la liste cmp une fois trouvés dans lst
   *)
     match lst with
-    |[] -> if cmp = [] then Some (pre, []) else None
+    (*a la fin de la liste, on compare la partie a rechercher avec la liste vide, 
+       en cas d'égalité on retourne le préfixe et le suffixe,
+       sinon on retourne None (echec de recherche)*)
+    |[] -> if cmp = [] then Some (pre, []) else None 
+    (*si ce n'est pas la fin, on teste la fin de la recherche (on a trouvé la chaine demandé)
+       si c'est le cas, on termine avec succés
+       sinon on verifie le premier element de la liste rechrché avec l'element actuel de la liste complète
+       s'ils sont égaux, on continue la recherche
+       sinon on ajoute (la liste "pos" qui est supposé d'etre aprés la liste recherché) au préfixe et on continue la
+       recherche (on recommance pour le reste de la liste complète)*)
     |bs::r -> if cmp=[] then Some (pre, lst)
-    else 
+    else
       if bs=(List.hd cmp) then build r (List.tl cmp) (pre) (pos@[bs])
       else if cmp=slice then build r cmp (pre@[bs]) []
       else build lst slice (pre@pos) []
@@ -124,6 +133,8 @@ let first_occ (slice : 'a list) (list : 'a list)
 
 let rec slices_between
           (start : 'a list) (stop : 'a list) (list : 'a list) : 'a list list =
+  (*calculer l'intersection de la liste aprés la premiere occurence de la premiere liste
+     et celle avant *)
   match (first_occ start list) with 
   |None -> []
   |Some (x, y) -> 
@@ -133,7 +144,7 @@ let rec slices_between
 
 (*
   slices_between [1; 1] [1; 2] [1; 1; 1; 1; 2; 1; 3; 1; 2] = [[1]; []; [2; 1; 3]]
- *)
+*)
 
 let cut_genes (dna : dna) : (dna list) =
   slices_between [A;T;G] [T;A;A] dna
@@ -174,11 +185,11 @@ let consensus (list : 'a list) : 'a consensus =
   and get_consensus ints alphas: ('a consensus) = 
     let rec find_cons (ints: int list) (alphas: 'a list) (cons: ('a consensus) option) (cons_base: 'a) (cons_count: int) = 
       match (ints, alphas) with
-      |([], []) -> let finish cons =  
+      |([], []) -> let f cons =  
         match cons with 
         |None->No_consensus
         |Some cns -> cns
-      in finish cons
+      in f cons
       |(i::ri, a::ra) -> 
         (*si le nombre est null, alors on ne change pas le consensus*)
         if i=0 then find_cons ri ra cons cons_base cons_count 
