@@ -122,14 +122,15 @@ let first_occ (slice : 'a list) (list : 'a list)
  *)
 
 
-let rec slices_between
-          (start : 'a list) (stop : 'a list) (list : 'a list) : 'a list list =
-  match (first_occ start list) with 
-  |None -> []
-  |Some (x, y) -> 
-    match (first_occ stop y) with
-    |None -> []
-    |Some (z, t) -> z::(slices_between start stop t)
+let slices_between (start : 'a list) (stop : 'a list) (list : 'a list) : 'a list list =
+  let rec aux l acc =
+    match (first_occ start l) with 
+    |None -> acc
+    |Some (x, y) -> 
+      match (first_occ stop y) with
+      |None -> acc
+      |Some (z, t) -> aux t (z::acc)
+  in List.rev (aux list [])
 
 (*
   slices_between [1; 1] [1; 2] [1; 1; 1; 1; 2; 1; 3; 1; 2] = [[1]; []; [2; 1; 3]]
