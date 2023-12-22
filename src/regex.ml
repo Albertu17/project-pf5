@@ -59,11 +59,11 @@ let product l1 l2 =
   (* Les parcours des listes l1 et l2 sont pris en charge par la fonction fold_left. *)
 
 (* Prend en argument deux 'a list option et une fonction f, et
-applique f au contenu des deux 'a list option seulement si elles 
-sont de la forme Some l. *)
-let decide_to_apply f l1_opt l2_opt = match l1_opt, l2_opt with
+applique f au contenu des 'a list option seulement si elles 
+sont toutes deux de la forme Some l. *)
+let apply_if_possible f l1_opt l2_opt = match l1_opt, l2_opt with
   | Some _, None -> l1_opt
-  | None, Some _ -> l1_opt
+  | None, Some _ -> l2_opt
   | Some l1, Some l2 -> Some (f l1 l2)
   | None, None -> None
 
@@ -86,9 +86,9 @@ let enumerate alphabet exp =
                                                             sont les lettres. *)
     | Star e -> if is_empty e then k (Some [[]]) else k None
     | Concat(e1, e2) -> aux e1 (fun langage_e1 ->
-                        aux e2 (fun langage_e2 -> k (decide_to_apply product langage_e1 langage_e2)))
+                        aux e2 (fun langage_e2 -> k (apply_if_possible product langage_e1 langage_e2)))
     | Alt(e1, e2) ->  aux e1 (fun langage_e1 ->
-                      aux e2 (fun langage_e2 -> k (decide_to_apply union_sorted langage_e1 langage_e2)))
+                      aux e2 (fun langage_e2 -> k (apply_if_possible union_sorted langage_e1 langage_e2)))
   in aux exp Fun.id
 
 (* Renvoie l'ensemble (liste triée sans duplicata) des lettres apparaissant dans l'expression exp. *)

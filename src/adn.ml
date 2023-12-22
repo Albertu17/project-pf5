@@ -101,8 +101,8 @@ let first_occ (slice : 'a list) (list : 'a list)
     : ('a list * 'a list) option =
   let rec build (lst: 'a list) (cmp: 'a list) (pre: 'a list) (pos: 'a list)= 
   (*
-     lst: la liste compléte
-     cmp: la liste recherché
+     lst: la liste complète
+     cmp: la liste recherchée
      pre: préfixe de la liste
      suf: suffixe
      pos: une liste pour contenir les éléments de la liste cmp une fois trouvés dans lst
