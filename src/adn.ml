@@ -185,7 +185,7 @@ let consensus (list : 'a list) : 'a consensus =
         (* si le nombre est inférieure a la valeur max (mais pas null), on change de Full a Partial *)
         else if i<cons_count then match cons with
           |Some Full(_) -> find_cons ri ra (Some(Partial(cons_base, cons_count))) cons_base cons_count
-          |_ -> find_cons ri ra cons cons_base cons_count
+          |Some Partial _ | Some No_consensus | None -> find_cons ri ra cons cons_base cons_count
         (*Si la valeur est égale a la valeur max, alors on change de Full (ou Partial) à No_consensus*)
         else if i=cons_count then 
           match cons with 
